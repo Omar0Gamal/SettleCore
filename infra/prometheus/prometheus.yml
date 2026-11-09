@@ -1,0 +1,40 @@
+global:
+  scrape_interval: 2s
+  evaluation_interval: 2s
+
+scrape_configs:
+  - job_name: "settlecore-gateway"
+    static_configs:
+      - targets: ["gateway:9091"]
+        labels:
+          service: "gateway"
+
+  - job_name: "settlecore-watcher"
+    static_configs:
+      - targets: ["watcher:9092"]
+        labels:
+          service: "watcher"
+
+  - job_name: "settlecore-relayer"
+    static_configs:
+      - targets: ["relayer:9093"]
+        labels:
+          service: "relayer"
+
+  - job_name: "settlecore-settlement"
+    static_configs:
+      - targets: ["settlement:9094"]
+        labels:
+          service: "settlement"
+
+  - job_name: "settlecore-market-maker"
+    static_configs:
+      - targets: ["market-maker:9095"]
+        labels:
+          service: "market-maker"
+
+  - job_name: "settlecore-reconciler"
+    static_configs:
+      - targets: ["reconciler:9096"]
+        labels:
+          service: "reconciler"

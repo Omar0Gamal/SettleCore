@@ -1,0 +1,154 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "µs"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "CLOB Order Match Latency (p50 / p99 / p99.9 µs)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(order_match_latency_us_bucket[1m])) by (le))",
+          "legendFormat": "p50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(order_match_latency_us_bucket[1m])) by (le))",
+          "legendFormat": "p99",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.999, sum(rate(order_match_latency_us_bucket[1m])) by (le))",
+          "legendFormat": "p99.9",
+          "refId": "C"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "title": "EVM Indexer Block Lag",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "indexer_block_lag",
+          "legendFormat": "Block Lag",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 8 },
+      "id": 3,
+      "title": "Chain Reorg Rollbacks Total",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "reorg_rollbacks_total",
+          "legendFormat": "Rollbacks",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 8 },
+      "id": 4,
+      "title": "Relayer Stuck Tx EIP-1559 Gas Bumps",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "stuck_tx_gas_bumps",
+          "legendFormat": "Gas Bumps",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "index": 0, "text": "INVARIANT VIOLATION" },
+                "1": { "color": "green", "index": 1, "text": "SOLVENT (VERIFIED)" }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 8 },
+      "id": 5,
+      "title": "Proof-of-Reserves Invariant Status",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "reserves_invariant_ok",
+          "legendFormat": "Solvency",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "2s",
+  "schemaVersion": 39,
+  "tags": ["settlecore", "clob", "evm", "solvency"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timezone": "utc",
+  "title": "SettleCore Exchange Engine & Custody Overview",
+  "uid": "settlecore-overview",
+  "version": 1
+}
