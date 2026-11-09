@@ -1,0 +1,70 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Foundry / Solidity
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+contracts/lib/*
+!contracts/lib/forge-std/
+contracts/lib/forge-std/*
+!contracts/lib/forge-std/src/
+!contracts/lib/openzeppelin-contracts/
+contracts/lib/openzeppelin-contracts/*
+!contracts/lib/openzeppelin-contracts/contracts/
+
+# C++17 Engine & CMake
+engine/build/
+engine/cmake-build-*/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Go Services
+services/bin/
+services/vendor/
+*.test
+*.out
+coverage.txt
+
+# Next.js Web UI
+web/.next/
+web/node_modules/
+web/out/
+web/next-env.d.ts
+*.tsbuildinfo
+
+# Benchmark Results & Python Virtual Environments
+benchmarks/charts/.venv/
+benchmarks/charts/__pycache__/
+benchmarks/charts/.ruff_cache/
+benchmarks/results/*.hdr
+!benchmarks/results/.gitkeep
+
+# Remotion & Playwright Demo Video
+demo-video/node_modules/
+demo-video/test-results/
+demo-video/playwright-report/
+demo-video/public/captures/*.webm
+demo-video/public/captures/*.mp4
+!demo-video/public/captures/.gitkeep
+demo-video/out/*.mp4
+demo-video/out/*.webp
+!demo-video/out/.gitkeep
+
+# Runtime Data & WAL Volumes
+data/
+*.wal
+*.snap
