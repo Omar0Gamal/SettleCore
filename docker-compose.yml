@@ -1,0 +1,326 @@
+name: SettleCore Monorepo topology
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: settlecore-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-settlecore}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-settlecore_local_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-settlecore}
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=250"
+      - "-c"
+      - "shared_buffers=512MB"
+      - "-c"
+      - "synchronous_commit=on"
+      - "-c"
+      - "track_io_timing=on"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - settlecore_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-settlecore} -d ${POSTGRES_DB:-settlecore}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  anvil:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.contracts
+    container_name: settlecore-anvil
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "/workspace/infra/anvil/entrypoint.sh"]
+    ports:
+      - "8544:8545"
+    networks:
+      - settlecore_net
+    healthcheck:
+      test: ["CMD-SHELL", "cast block-number --rpc-url http://127.0.0.1:8545 >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rpc-proxy-1:
+    image: alpine/socat:1.8.0.1
+    container_name: settlecore-rpc-proxy-1
+    restart: unless-stopped
+    depends_on:
+      anvil:
+        condition: service_healthy
+    command: ["TCP-LISTEN:8545,fork,reuseaddr", "TCP:anvil:8545"]
+    ports:
+      - "8545:8545"
+    networks:
+      - settlecore_net
+
+  rpc-proxy-2:
+    image: alpine/socat:1.8.0.1
+    container_name: settlecore-rpc-proxy-2
+    restart: unless-stopped
+    depends_on:
+      anvil:
+        condition: service_healthy
+    command: ["TCP-LISTEN:8546,fork,reuseaddr", "TCP:anvil:8545"]
+    ports:
+      - "8546:8546"
+    networks:
+      - settlecore_net
+
+  contracts-deployer:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.contracts
+    container_name: settlecore-contracts-deployer
+    depends_on:
+      anvil:
+        condition: service_healthy
+    environment:
+      EVM_PRIMARY_RPC_URL: http://anvil:8545
+      DEPLOYER_PRIVATE_KEY: ${DEPLOYER_PRIVATE_KEY:-0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80}
+    command: ["forge", "script", "script/DeployLocal.s.sol:DeployLocal", "--rpc-url", "http://anvil:8545", "--broadcast"]
+    networks:
+      - settlecore_net
+
+  gateway:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: gateway
+        CGO_ENABLED: "1"
+    container_name: settlecore-gateway
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rpc-proxy-1:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-settlecore}:${POSTGRES_PASSWORD:-settlecore_local_dev}@postgres:5432/${POSTGRES_DB:-settlecore}?sslmode=disable
+      ENGINE_WAL_DIR: /var/lib/settlecore/wal
+      ENGINE_SNAPSHOT_DIR: /var/lib/settlecore/snapshots
+      EVM_PRIMARY_RPC_URL: http://rpc-proxy-1:8545
+      EVM_FALLBACK_RPC_URL: http://rpc-proxy-2:8546
+      GATEWAY_HTTP_ADDR: :8080
+      GATEWAY_METRICS_ADDR: :9091
+      CHAOS_API_ENABLED: "true"
+    ports:
+      - "8080:8080"
+      - "9091:9091"
+    volumes:
+      - engine_wal_data:/var/lib/settlecore/wal
+      - engine_snapshot_data:/var/lib/settlecore/snapshots
+    networks:
+      - settlecore_net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/healthz >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  watcher:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: watcher
+        CGO_ENABLED: "0"
+    container_name: settlecore-watcher
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rpc-proxy-1:
+        condition: service_started
+      rpc-proxy-2:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-settlecore}:${POSTGRES_PASSWORD:-settlecore_local_dev}@postgres:5432/${POSTGRES_DB:-settlecore}?sslmode=disable
+      EVM_PRIMARY_RPC_URL: http://rpc-proxy-1:8545
+      EVM_FALLBACK_RPC_URL: http://rpc-proxy-2:8546
+      EVM_CONFIRMATIONS_REQUIRED: ${EVM_CONFIRMATIONS_REQUIRED:-3}
+      ESCROW_VAULT_ADDRESS: ${ESCROW_VAULT_ADDRESS:-0x5FbDB2315678afecb367f032d93F642f64180aa3}
+      METRICS_ADDR: :9092
+    ports:
+      - "9092:9092"
+    networks:
+      - settlecore_net
+
+  relayer:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: relayer
+        CGO_ENABLED: "0"
+    container_name: settlecore-relayer
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rpc-proxy-1:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-settlecore}:${POSTGRES_PASSWORD:-settlecore_local_dev}@postgres:5432/${POSTGRES_DB:-settlecore}?sslmode=disable
+      EVM_PRIMARY_RPC_URL: http://rpc-proxy-1:8545
+      EVM_FALLBACK_RPC_URL: http://rpc-proxy-2:8546
+      ESCROW_VAULT_ADDRESS: ${ESCROW_VAULT_ADDRESS:-0x5FbDB2315678afecb367f032d93F642f64180aa3}
+      HOT_SIGNER_PRIVATE_KEY: ${HOT_SIGNER_PRIVATE_KEY:-0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d}
+      COLD_SIGNER_PRIVATE_KEY: ${COLD_SIGNER_PRIVATE_KEY:-0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a}
+      RELAYER_PRIVATE_KEY: ${RELAYER_PRIVATE_KEY:-0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6}
+      METRICS_ADDR: :9093
+    ports:
+      - "9093:9093"
+    networks:
+      - settlecore_net
+
+  settlement:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: settlement
+        CGO_ENABLED: "0"
+    container_name: settlecore-settlement
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-settlecore}:${POSTGRES_PASSWORD:-settlecore_local_dev}@postgres:5432/${POSTGRES_DB:-settlecore}?sslmode=disable
+      ENGINE_WAL_DIR: /var/lib/settlecore/wal
+      METRICS_ADDR: :9094
+    ports:
+      - "9094:9094"
+    volumes:
+      - engine_wal_data:/var/lib/settlecore/wal:ro
+    networks:
+      - settlecore_net
+
+  market-maker:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: market-maker
+        CGO_ENABLED: "0"
+    container_name: settlecore-market-maker
+    restart: unless-stopped
+    depends_on:
+      gateway:
+        condition: service_healthy
+    environment:
+      GATEWAY_WS_URL: ws://gateway:8080/v1/ws
+      GATEWAY_HTTP_URL: http://gateway:8080
+      MARKET_MAKER_BINANCE_WS: ${MARKET_MAKER_BINANCE_WS:-wss://stream.binance.com:9443/ws}
+      MARKET_MAKER_SPREAD_BPS: ${MARKET_MAKER_SPREAD_BPS:-8}
+      METRICS_ADDR: :9095
+    ports:
+      - "9095:9095"
+    networks:
+      - settlecore_net
+
+  reconciler:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.services
+      args:
+        SERVICE_NAME: reconciler
+        CGO_ENABLED: "0"
+    container_name: settlecore-reconciler
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rpc-proxy-1:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-settlecore}:${POSTGRES_PASSWORD:-settlecore_local_dev}@postgres:5432/${POSTGRES_DB:-settlecore}?sslmode=disable
+      EVM_PRIMARY_RPC_URL: http://rpc-proxy-1:8545
+      EVM_FALLBACK_RPC_URL: http://rpc-proxy-2:8546
+      ESCROW_VAULT_ADDRESS: ${ESCROW_VAULT_ADDRESS:-0x5FbDB2315678afecb367f032d93F642f64180aa3}
+      RECONCILER_INTERVAL_SEC: ${RECONCILER_INTERVAL_SEC:-60}
+      MERKLE_SNAPSHOT_INTERVAL_SEC: ${MERKLE_SNAPSHOT_INTERVAL_SEC:-3600}
+      METRICS_ADDR: :9096
+    ports:
+      - "9096:9096"
+    networks:
+      - settlecore_net
+
+  web:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.web
+    container_name: settlecore-web
+    restart: unless-stopped
+    depends_on:
+      gateway:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+      NEXT_PUBLIC_WS_URL: ws://localhost:8080/v1/ws
+      NEXT_PUBLIC_CHAIN_ID: "31337"
+      NEXT_PUBLIC_RPC_URL: http://localhost:8545
+      NEXT_PUBLIC_ESCROW_VAULT_ADDRESS: ${ESCROW_VAULT_ADDRESS:-0x5FbDB2315678afecb367f032d93F642f64180aa3}
+    ports:
+      - "3000:3000"
+    networks:
+      - settlecore_net
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: settlecore-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - settlecore_net
+
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: settlecore-grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./infra/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./infra/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    networks:
+      - settlecore_net
+
+networks:
+  settlecore_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  engine_wal_data:
+  engine_snapshot_data:
+  prometheus_data:
+  grafana_data:

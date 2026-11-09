@@ -1,0 +1,12 @@
+# ==============================================================================
+# SettleCore Foundry (Anvil + Solidity 0.8.38 EscrowVault Deployer)
+# ==============================================================================
+FROM ghcr.io/foundry-rs/foundry:latest
+
+WORKDIR /workspace
+COPY contracts/ /workspace/contracts/
+COPY infra/anvil/entrypoint.sh /workspace/infra/anvil/entrypoint.sh
+
+WORKDIR /workspace/contracts
+EXPOSE 8545
+ENTRYPOINT ["/bin/sh", "/workspace/infra/anvil/entrypoint.sh"]

@@ -1,0 +1,26 @@
+# ==============================================================================
+# SettleCore C++17 Matching Engine & Benchmark Builder Image
+# ==============================================================================
+FROM ubuntu:24.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    ca-certificates \
+    clang \
+    cmake \
+    git \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace/engine
+COPY engine/ .
+
+RUN cmake --preset release && cmake --build --preset release
+
+FROM ubuntu:24.04
+WORKDIR /app
+COPY --from=builder /workspace/engine/build/release/libsettlecore_engine.a /usr/local/lib/
+COPY --from=builder /workspace/engine/include/settlecore /usr/local/include/settlecore
+CMD ["/bin/bash"]

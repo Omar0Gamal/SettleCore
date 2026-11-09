@@ -1,0 +1,46 @@
+# ==============================================================================
+# SettleCore Go 1.27 Backend Services + C++17 cgo Builder Image
+# ==============================================================================
+FROM ubuntu:24.04 AS engine-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    ca-certificates \
+    clang \
+    cmake \
+    git \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace/engine
+COPY engine/ .
+RUN if [ -s src/order_book.cpp ]; then \
+      cmake --preset release && cmake --build --preset release; \
+    else \
+      mkdir -p build/release && ar rcs build/release/libsettlecore_engine.a; \
+    fi
+
+FROM golang:1.27-bookworm AS go-builder
+
+ARG SERVICE_NAME=gateway
+ARG CGO_ENABLED=1
+
+WORKDIR /workspace
+COPY --from=engine-builder /workspace/engine/build/release/libsettlecore_engine.a /usr/local/lib/
+COPY engine/include/ /usr/local/include/
+COPY services/ /workspace/services/
+
+WORKDIR /workspace/services
+RUN CGO_ENABLED=${CGO_ENABLED} go build -trimpath -o /out/${SERVICE_NAME} ./cmd/${SERVICE_NAME}
+
+FROM debian:bookworm-slim
+ARG SERVICE_NAME=gateway
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libstdc++6 \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=go-builder /out/${SERVICE_NAME} /usr/local/bin/service
+ENTRYPOINT ["/usr/local/bin/service"]
