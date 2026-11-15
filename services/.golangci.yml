@@ -1,0 +1,35 @@
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - gosec
+    - exhaustive
+    - bodyclose
+    - noctx
+    - ineffassign
+    - unused
+    - gosimple
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  govet:
+    enable-all: true
+  exhaustive:
+    default-signifies-exhaustive: false
+  gosec:
+    excludes:
+      - G115
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
