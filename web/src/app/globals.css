@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-canvas: #0B0E11;
+  --bg-header: #13171D;
+  --bg-control: #1A1F27;
+  --border-grid: #222831;
+  --accent-bid: #0ECB81;
+  --accent-ask: #F6465D;
+  --accent-telemetry: #38BDF8;
+}
+
+html,
+body {
+  background-color: #0B0E11;
+  color: #EAECEF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+.font-mono,
+.tabular-nums {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv01" 1, "cv11" 1, "zero" 0;
+}
+
+.font-display {
+  font-family: var(--font-jakarta), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Accessible keyboard focus ring (L7) */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.75);
+  outline-offset: 1px;
+}
+
+/* Institutional Pro Exchange Surfaces */
+.panel-surface {
+  background-color: #0B0E11;
+  border: 1px solid #222831;
+}
+
+.panel-elevated {
+  background-color: #13171D;
+  border: 1px solid #222831;
+}
+
+.panel-control {
+  background-color: #1A1F27;
+  border: 1px solid #222831;
+}
+
+/* Tactile button press transition */
+.btn-tactile {
+  transition: transform 110ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.btn-tactile:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Input focus pulse when populated from Order Book */
+@keyframes input-focus-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.65);
+    border-color: #38BDF8;
+  }
+  65% {
+    box-shadow: 0 0 0 5px rgba(56, 189, 248, 0);
+    border-color: #38BDF8;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+    border-color: #2B3139;
+  }
+}
+
+.animate-input-pulse {
+  animation: input-focus-pulse 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Subtle flash animations for trade tape */
+@keyframes flash-bid {
+  0% {
+    background-color: rgba(14, 203, 129, 0.26);
+  }
+  100% {
+    background-color: rgba(14, 203, 129, 0.05);
+  }
+}
+
+@keyframes flash-ask {
+  0% {
+    background-color: rgba(246, 70, 93, 0.26);
+  }
+  100% {
+    background-color: rgba(246, 70, 93, 0.05);
+  }
+}
+
+.animate-flash-bid {
+  animation: flash-bid 0.65s ease-out forwards;
+}
+
+.animate-flash-ask {
+  animation: flash-ask 0.65s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-tactile,
+  .animate-input-pulse,
+  .animate-flash-bid,
+  .animate-flash-ask {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Custom ultra-thin institutional scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2B3139;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #474D57;
+}
