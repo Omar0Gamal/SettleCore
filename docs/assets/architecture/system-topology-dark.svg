@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="896" viewBox="0 0 1440 896" role="img" aria-label="SettleCore 5-Zone Event-Sourced Architecture">
+  <defs>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#64748B"/>
+    </marker>
+    <marker id="arrow-cyan-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrow-emerald-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#34D399"/>
+    </marker>
+    <marker id="arrow-indigo-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#818CF8"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="896" fill="#0B0E11"/>
+  <text x="32" y="42" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="#F0F6FC">SettleCore — Event-Sourced Two-Phase Architecture</text>
+  <text x="32" y="64" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12.5" fill="#8B949E">Sub-microsecond C++17 matching · PostgreSQL 18 double-entry ledger · Reorg-safe Solidity 0.8.38 custody</text>
+  <rect x="910" y="28" width="154" height="28" rx="7" fill="#11161D" stroke="#242C37" stroke-width="1"/>
+  <circle cx="926" cy="42" r="4" fill="#38BDF8"/>
+  <text x="938" y="46" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#CBD5E1">Zero-Lock Hot Path</text>
+  <rect x="1074" y="28" width="166" height="28" rx="7" fill="#11161D" stroke="#242C37" stroke-width="1"/>
+  <circle cx="1090" cy="42" r="4" fill="#34D399"/>
+  <text x="1102" y="46" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#CBD5E1">Double-Entry Ledger</text>
+  <rect x="1250" y="28" width="158" height="28" rx="7" fill="#11161D" stroke="#242C37" stroke-width="1"/>
+  <circle cx="1266" cy="42" r="4" fill="#818CF8"/>
+  <text x="1278" y="46" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#CBD5E1">EVM Custody Layer</text>
+  <rect x="32" y="88" width="304" height="388" rx="14" fill="#11161D" stroke="#242C37" stroke-width="1.4"/>
+  <rect x="48" y="100" width="266" height="22" rx="6" fill="#0D1117" stroke="#242C37" stroke-width="1"/>
+  <circle cx="60" cy="111" r="3.5" fill="#38BDF8"/>
+  <text x="70" y="115" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10.2" font-weight="700" letter-spacing="0.2" fill="#F0F6FC">ZONE 1 · CLIENTS &amp; LIQUIDITY</text>
+  <rect x="48" y="134" width="272" height="152" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="48" y="144" width="4" height="132" rx="2" fill="#38BDF8"/>
+  <rect x="64" y="146" width="172" height="19" rx="5" fill="#102A3A"/>
+  <text x="72" y="159" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#38BDF8">NEXT.JS 16.4 + REACT 19</text>
+  <text x="64" y="183" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Trading Terminal</text>
+  <text x="64" y="200" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">lightweight-charts · wagmi v3 · viem v2</text>
+  <text x="64" y="220" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">REST + WS + EIP-712 Order Signer</text>
+  <text x="64" y="237" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">2-Phase Order Lifecycle Inspector</text>
+  <text x="64" y="254" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Merkle Sum Tree Proof Verifier</text>
+  <rect x="48" y="306" width="272" height="152" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="48" y="316" width="4" height="132" rx="2" fill="#38BDF8"/>
+  <rect x="64" y="318" width="91" height="19" rx="5" fill="#102A3A"/>
+  <text x="72" y="331" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#38BDF8">GO 1.27 BOT</text>
+  <text x="64" y="355" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">External Market-Maker</text>
+  <text x="64" y="372" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Public Tick Feed · Unprivileged Client</text>
+  <text x="64" y="392" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Two-Sided Ladder Quoting via WS</text>
+  <text x="64" y="409" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Cancel-on-Disconnect Armed</text>
+  <text x="64" y="426" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Zero DB or Shared Memory Access</text>
+  <rect x="416" y="88" width="412" height="388" rx="14" fill="#11161D" stroke="#242C37" stroke-width="1.4"/>
+  <rect x="432" y="100" width="348" height="22" rx="6" fill="#0D1117" stroke="#242C37" stroke-width="1"/>
+  <circle cx="444" cy="111" r="3.5" fill="#34D399"/>
+  <text x="454" y="115" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10.2" font-weight="700" letter-spacing="0.2" fill="#F0F6FC">ZONE 2 · GATEWAY &amp; DOUBLE-ENTRY LEDGER</text>
+  <rect x="432" y="134" width="380" height="142" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="432" y="144" width="4" height="122" rx="2" fill="#38BDF8"/>
+  <rect x="448" y="146" width="227" height="19" rx="5" fill="#102A3A"/>
+  <text x="456" y="159" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#38BDF8">GO 1.27 · GIN + CODER/WEBSOCKET</text>
+  <text x="448" y="183" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Gateway Service</text>
+  <text x="448" y="200" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">EIP-712 Verification · Idempotency-Key Guard</text>
+  <text x="448" y="220" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">65,536-slot ingress ring (&gt;85% sheds non-cancel)</text>
+  <text x="448" y="237" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">25 ms coalesced L2 order book &amp; trade fan-out</text>
+  <text x="448" y="254" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Crash recovery rolls back RESERVED -&gt; ABORTED</text>
+  <rect x="432" y="320" width="380" height="140" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="432" y="330" width="4" height="120" rx="2" fill="#34D399"/>
+  <rect x="448" y="332" width="220" height="19" rx="5" fill="#0F2E24"/>
+  <text x="456" y="345" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#34D399">POSTGRESQL 18 · PGXPOOL + SQLC</text>
+  <text x="448" y="369" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Double-Entry ACID Ledger</text>
+  <text x="448" y="386" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">NUMERIC(38,18) · Row Lock Ordering (account_id ASC)</text>
+  <text x="448" y="406" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">trg_ledger_entries_balanced: SUM(Dr) == SUM(Cr)</text>
+  <text x="448" y="423" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">trg_ledger_entries_immutable (append-only)</text>
+  <text x="448" y="440" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Pre-Trade Reserve: available -&gt; locked</text>
+  <rect x="908" y="88" width="500" height="388" rx="14" fill="#11161D" stroke="#242C37" stroke-width="1.4"/>
+  <rect x="924" y="100" width="339" height="22" rx="6" fill="#0D1117" stroke="#242C37" stroke-width="1"/>
+  <circle cx="936" cy="111" r="3.5" fill="#38BDF8"/>
+  <text x="946" y="115" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10.2" font-weight="700" letter-spacing="0.2" fill="#F0F6FC">ZONE 3 · C++17 CLOB &amp; PAIRED JOURNALS</text>
+  <rect x="924" y="134" width="468" height="134" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="924" y="144" width="4" height="114" rx="2" fill="#38BDF8"/>
+  <rect x="940" y="146" width="281" height="19" rx="5" fill="#102A3A"/>
+  <text x="948" y="159" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#38BDF8">C++17 · OS-PINNED THREAD (LockOSThread)</text>
+  <text x="940" y="183" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Single-Threaded Zero-Lock CLOB</text>
+  <text x="940" y="200" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">64B OrderNode Slab · Price-Time FIFO · ±10% Collar</text>
+  <text x="940" y="220" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">0.215 µs p50 match · 4.90M ops/s · 0 hot-path allocs</text>
+  <text x="940" y="237" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Self-Trade Prevention (STP) · Batched C ABI</text>
+  <rect x="924" y="298" width="226" height="104" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="924" y="308" width="4" height="84" rx="2" fill="#FBBF24"/>
+  <rect x="940" y="310" width="84" height="19" rx="5" fill="#2D2310"/>
+  <text x="948" y="323" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#FBBF24">64B CRC32C</text>
+  <text x="940" y="347" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Command WAL (.wal)</text>
+  <text x="940" y="364" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Magic: "SCWL"</text>
+  <text x="940" y="384" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">GROUP_COMMIT fdatasync</text>
+  <rect x="1166" y="298" width="226" height="104" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="1166" y="308" width="4" height="84" rx="2" fill="#34D399"/>
+  <rect x="1182" y="310" width="84" height="19" rx="5" fill="#0F2E24"/>
+  <text x="1190" y="323" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#34D399">64B CRC32C</text>
+  <text x="1182" y="347" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Execution Log (.evlog)</text>
+  <text x="1182" y="364" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Magic: "SCEV"</text>
+  <text x="1182" y="384" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Accepts · Fills · Cancels</text>
+  <rect x="924" y="416" width="468" height="44" rx="8" fill="#161C24" stroke="#2B3543" stroke-width="1.2"/>
+  <rect x="924" y="424" width="4" height="28" rx="2" fill="#FBBF24"/>
+  <text x="940" y="442" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="11" font-weight="700" fill="#F0F6FC">replay-cli</text>
+  <text x="1024" y="442" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Cold .wal + binary snapshot SHA-256 verifier</text>
+  <rect x="32" y="548" width="840" height="312" rx="14" fill="#11161D" stroke="#242C37" stroke-width="1.4"/>
+  <rect x="48" y="560" width="635" height="22" rx="6" fill="#0D1117" stroke="#242C37" stroke-width="1"/>
+  <circle cx="60" cy="571" r="3.5" fill="#818CF8"/>
+  <text x="70" y="575" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10.2" font-weight="700" letter-spacing="0.2" fill="#F0F6FC">ZONE 5 · MULTI-RPC WATCHER, GAS-BUMPING RELAYER &amp; SOLIDITY 0.8.38 CUSTODY</text>
+  <rect x="48" y="594" width="262" height="138" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="48" y="604" width="4" height="118" rx="2" fill="#818CF8"/>
+  <rect x="64" y="606" width="200" height="19" rx="5" fill="#1E2242"/>
+  <text x="72" y="619" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#818CF8">SOLIDITY 0.8.38 · OZ v5.6.1</text>
+  <text x="64" y="643" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">EscrowVault Custody</text>
+  <text x="64" y="660" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">RateLimited · ReserveAttestation</text>
+  <text x="64" y="680" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">EIP-712 tiered withdraw vouchers</text>
+  <text x="64" y="697" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Rolling 24h token-bucket cap</text>
+  <text x="64" y="714" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">On-chain isSolvent(token) check</text>
+  <rect x="48" y="752" width="262" height="92" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="48" y="762" width="4" height="72" rx="2" fill="#818CF8"/>
+  <rect x="64" y="764" width="132" height="19" rx="5" fill="#1E2242"/>
+  <text x="72" y="777" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#818CF8">EVM FAILOVER POOL</text>
+  <text x="64" y="801" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Dual RPC Proxies</text>
+  <text x="64" y="818" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">:8545 Primary · :8546 Failover</text>
+  <text x="64" y="838" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">&lt;500 ms health-scored switch</text>
+  <rect x="344" y="594" width="252" height="250" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="344" y="604" width="4" height="230" rx="2" fill="#818CF8"/>
+  <rect x="360" y="606" width="179" height="19" rx="5" fill="#1E2242"/>
+  <text x="368" y="619" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#818CF8">GO 1.27 · LINEAGE ENGINE</text>
+  <text x="360" y="643" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Finality Watcher</text>
+  <text x="360" y="660" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Block Parent-Hash Verifier</text>
+  <text x="360" y="680" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">N-confirmation deposit credit</text>
+  <text x="360" y="697" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Detects chain reorgs &lt;= 64 blks</text>
+  <text x="360" y="714" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Marks orphaned blocks/deposits</text>
+  <text x="360" y="731" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Posts REORG_REVERSAL debit</text>
+  <text x="360" y="748" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Updates indexer_block_lag</text>
+  <rect x="612" y="594" width="244" height="250" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="612" y="604" width="4" height="230" rx="2" fill="#818CF8"/>
+  <rect x="628" y="606" width="206" height="19" rx="5" fill="#1E2242"/>
+  <text x="636" y="619" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#818CF8">GO 1.27 · NONCE + FEE BUMPER</text>
+  <text x="628" y="643" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Withdrawal Relayer</text>
+  <text x="628" y="660" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Outbox SKIP LOCKED Consumer</text>
+  <text x="628" y="680" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Hot/Cold EIP-712 voucher signer</text>
+  <text x="628" y="697" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Serialized EOA nonce allocator</text>
+  <text x="628" y="714" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">+15% EIP-1559 replacement bump</text>
+  <text x="628" y="731" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Finalizes locked -&gt; VAULT</text>
+  <text x="628" y="748" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Tracks stuck_tx_gas_bumps</text>
+  <rect x="908" y="548" width="500" height="312" rx="14" fill="#11161D" stroke="#242C37" stroke-width="1.4"/>
+  <rect x="924" y="560" width="438" height="22" rx="6" fill="#0D1117" stroke="#242C37" stroke-width="1"/>
+  <circle cx="936" cy="571" r="3.5" fill="#34D399"/>
+  <text x="946" y="575" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10.2" font-weight="700" letter-spacing="0.2" fill="#F0F6FC">ZONE 4 · EVENT-LOG SETTLEMENT &amp; MERKLE RECONCILER</text>
+  <rect x="924" y="594" width="468" height="118" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="924" y="604" width="4" height="98" rx="2" fill="#34D399"/>
+  <rect x="940" y="606" width="220" height="19" rx="5" fill="#0F2E24"/>
+  <text x="948" y="619" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#34D399">GO 1.27 · PURE .EVLOG CONSUMER</text>
+  <text x="940" y="643" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Settlement Worker</text>
+  <text x="940" y="660" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">Zero Matching Re-Execution · Atomic Batch Commit</text>
+  <text x="940" y="680" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Tails SCEV frames &gt; engine_checkpoints.last_settled_wal_seq</text>
+  <text x="940" y="697" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Batch Settle: fills, fees &amp; release locked</text>
+  <rect x="924" y="728" width="468" height="116" rx="10" fill="#161C24" stroke="#2B3543" stroke-width="1.25"/>
+  <rect x="924" y="738" width="4" height="96" rx="2" fill="#34D399"/>
+  <rect x="940" y="740" width="200" height="19" rx="5" fill="#0F2E24"/>
+  <text x="948" y="753" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="700" fill="#34D399">GO 1.27 · PROOF-OF-RESERVES</text>
+  <text x="940" y="777" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#F0F6FC">Merkle Sum Tree Reconciler</text>
+  <text x="940" y="794" font-family="Inter, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#8B949E">60s Solvency Invariant · Hourly Keccak-256 Attestation</text>
+  <text x="940" y="814" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Keccak256(0x01 || L || R || sumL+sumR) over REPEATABLE READ</text>
+  <text x="940" y="831" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="10" fill="#CBD5E1">Publishes root via attester -&gt; publishReserveAttestation</text>
+  <path d="M 320 202 L 430 202" fill="none" stroke="#38BDF8" stroke-width="2" marker-end="url(#arrow-cyan-dark)"/>
+  <rect x="339" y="175" width="72" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="375" y="188.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#38BDF8">REST / WS</text>
+  <path d="M 320 382 L 374 382 L 374 236 L 430 236" fill="none" stroke="#38BDF8" stroke-width="1.8" marker-end="url(#arrow-cyan-dark)"/>
+  <rect x="339" y="304" width="72" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="375" y="317.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#38BDF8">WS Quotes</text>
+  <path d="M 622 276 L 622 318" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arrow-emerald-dark)"/>
+  <rect x="560" y="287" width="124" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="622" y="300.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#34D399">Pre-Trade Reserve</text>
+  <path d="M 812 202 L 922 202" fill="none" stroke="#38BDF8" stroke-width="2.2" marker-start="url(#arrow-cyan-dark)" marker-end="url(#arrow-cyan-dark)"/>
+  <rect x="826" y="174" width="82" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="867" y="187.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#38BDF8">C ABI (cgo)</text>
+  <path d="M 1037 268 L 1037 296" fill="none" stroke="#FBBF24" stroke-width="1.8" marker-end="url(#arrow-dark)"/>
+  <path d="M 1279 268 L 1279 296" fill="none" stroke="#34D399" stroke-width="1.8" marker-end="url(#arrow-emerald-dark)"/>
+  <path d="M 1037 402 L 1037 415" fill="none" stroke="#FBBF24" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
+  <path d="M 1279 402 L 1279 592" fill="none" stroke="#34D399" stroke-width="2.2" marker-end="url(#arrow-emerald-dark)"/>
+  <rect x="1212" y="510" width="134" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="1279" y="523.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#34D399">Tail .evlog Frames</text>
+  <path d="M 924 640 L 888 640 L 888 514 L 724 514 L 724 462" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arrow-emerald-dark)"/>
+  <rect x="753" y="504" width="130" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="818" y="517.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#34D399">Batch Settlement</text>
+  <path d="M 768 460 L 768 488 L 1424 488 L 1424 786 L 1394 786" fill="none" stroke="#34D399" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-emerald-dark)"/>
+  <rect x="938" y="478" width="128" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="1002" y="491.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#34D399">Liability Snapshot</text>
+  <path d="M 470 592 L 470 462" fill="none" stroke="#818CF8" stroke-width="2" marker-end="url(#arrow-indigo-dark)"/>
+  <rect x="412" y="504" width="116" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="470" y="517.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#818CF8">Finality / Reorg</text>
+  <path d="M 634 462 L 634 592" fill="none" stroke="#818CF8" stroke-width="2" marker-start="url(#arrow-indigo-dark)" marker-end="url(#arrow-indigo-dark)"/>
+  <rect x="576" y="504" width="116" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="634" y="517.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#818CF8">Outbox / Settled</text>
+  <path d="M 344 798 L 312 798" fill="none" stroke="#818CF8" stroke-width="1.8" marker-start="url(#arrow-indigo-dark)" marker-end="url(#arrow-indigo-dark)"/>
+  <path d="M 734 844 L 734 853 L 154 853 L 154 846" fill="none" stroke="#818CF8" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow-indigo-dark)"/>
+  <path d="M 180 752 L 180 734" fill="none" stroke="#818CF8" stroke-width="2" marker-start="url(#arrow-indigo-dark)" marker-end="url(#arrow-indigo-dark)"/>
+  <path d="M 924 816 L 892 816 L 892 876 L 236 876 L 236 846" fill="none" stroke="#34D399" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#arrow-emerald-dark)"/>
+  <rect x="405" y="866" width="230" height="20" rx="5" fill="#0B0E11" stroke="#242C37" stroke-width="1"/>
+  <text x="520" y="879.5" text-anchor="middle" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="9.5" font-weight="600" fill="#34D399">publishReserveAttestation (attester)</text>
+</svg>
