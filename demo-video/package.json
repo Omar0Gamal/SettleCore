@@ -1,0 +1,28 @@
+{
+  "name": "@settlecore/demo-video",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SettleCore 4K Retina (3840x2160) Playwright Capture, 48 kHz Stereo SFX & Remotion v4 1920x1080 @ 60fps Launch Video Studio",
+  "scripts": {
+    "capture": "playwright test --config=playwright.config.ts",
+    "generate:sfx": "node scripts/generate-sfx.mjs",
+    "studio": "remotion studio src/index.ts",
+    "render:mp4": "remotion render src/index.ts SettleCoreLaunch out/settlecore-launch-raw.mp4 --hardware-acceleration=if-possible --concurrency=4",
+    "render:readme-webp": "bash ../scripts/render-video.sh --mode webp",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.270",
+    "@remotion/media-utils": "4.0.270",
+    "@remotion/transitions": "4.0.270",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.270"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "typescript": "^5.8.2"
+  }
+}
