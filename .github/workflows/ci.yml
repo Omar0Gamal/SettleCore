@@ -1,0 +1,202 @@
+name: SettleCore CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    name: Contracts (Solidity 0.8.38 / Foundry)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      - name: Cache Foundry dependencies & artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            contracts/cache
+            contracts/out
+          key: foundry-${{ hashFiles('contracts/foundry.toml', 'contracts/remappings.txt', 'contracts/src/**') }}
+          restore-keys: foundry-
+      - name: Validate, Format, Build & Run Foundry Unit/Fuzz/Invariant Suites
+        run: |
+          if [ ! -f lib/forge-std/src/Test.sol ]; then forge install foundry-rs/forge-std --no-git; fi
+          if [ ! -f lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol ]; then forge install OpenZeppelin/openzeppelin-contracts@v5.1.0 --no-git; fi
+          test -f foundry.toml
+          test -f remappings.txt
+          forge --version
+          forge fmt --check
+          forge build --sizes
+          FOUNDRY_FUZZ_RUNS=10000 forge test -vvv
+
+  engine-cpp:
+    name: Matching Engine (C++17 / CMake 3.28+ / ASan-UBSan & Release)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install CMake, Ninja, Clang
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang clang-format clang-tidy
+      - name: Cache CMake FetchContent dependencies
+        uses: actions/cache@v4
+        with:
+          path: engine/build/asan-ubsan/_deps
+          key: engine-deps-${{ hashFiles('engine/CMakeLists.txt', 'engine/CMakePresets.json') }}
+          restore-keys: engine-deps-
+      - name: Validate CMake & Clang Configs
+        run: |
+          test -f CMakeLists.txt
+          test -f CMakePresets.json
+          test -f .clang-format
+          test -f .clang-tidy
+          python3 -m json.tool CMakePresets.json > /dev/null
+      - name: Build & Run C++17 ASan/UBSan Test Suite
+        run: |
+          cmake --preset asan-ubsan
+          cmake --build --preset asan-ubsan
+          ctest --preset asan-ubsan --output-on-failure
+      - name: Build & Run C++17 Release Test Suite
+        run: |
+          cmake --preset release
+          cmake --build --preset release
+          ctest --preset release --output-on-failure
+
+  services-go:
+    name: Backend Services (Go 1.27 / C ABI / Race / Differential & Sim)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go 1.27
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache-dependency-path: services/go.sum
+      - name: Install C++ Build Tools for C ABI Static Library
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang
+      - name: Build libsettlecore_engine.a (C ABI)
+        working-directory: engine
+        run: |
+          cmake --preset release
+          cmake --build --preset release --target settlecore_engine
+          sudo cp build/release/libsettlecore_engine.a /usr/local/lib/
+          sudo cp -r include/settlecore /usr/local/include/
+      - name: Validate Go Configs & Run Race + Differential + Deterministic Simulation Suites
+        working-directory: services
+        run: |
+          test -f go.mod
+          test -f sqlc.yaml
+          test -f .golangci.yml
+          grep -q "^go 1.27" go.mod
+          python3 -c "import yaml; yaml.safe_load(open('sqlc.yaml')); yaml.safe_load(open('.golangci.yml'))"
+          go vet ./...
+          CGO_ENABLED=1 go test -race -v ./...
+
+  web-nextjs:
+    name: Trading & Chaos UI (Next.js 16.4 / React 19.3)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Validate Web Configs
+        run: |
+          python3 -m json.tool package.json > /dev/null
+          python3 -m json.tool tsconfig.json > /dev/null
+          test -f next.config.ts
+          test -f postcss.config.mjs
+          test -f eslint.config.mjs
+      - name: Install, Typecheck, Lint & Build Next.js
+        run: |
+          npm ci
+          npm run typecheck
+          npm run lint
+          npm run build
+
+  benchmarks-charts-lint:
+    name: Benchmark Chart Pipeline (Python 3.12+ / uv / ruff)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: benchmarks/charts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Validate pyproject.toml, Lint Python Scripts & Verify SVG Generation
+        run: |
+          python3 -c "import tomllib; tomllib.load(open('pyproject.toml', 'rb'))"
+          uv run --only-group dev ruff check .
+          uv run python generate_charts.py --input-dir ../results --output-dir ../../docs/assets/benchmarks
+
+  demo-video-typecheck:
+    name: Launch Video Studio (Playwright 4K + Remotion v4)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo-video
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: demo-video/package-lock.json
+      - name: Validate Configs & Typecheck Remotion Studio
+        run: |
+          python3 -m json.tool package.json > /dev/null
+          python3 -m json.tool tsconfig.json > /dev/null
+          test -f remotion.config.ts
+          test -f playwright.config.ts
+          npm ci
+          npm run typecheck
+
+  infra-validate:
+    name: Docker, Prometheus, Grafana & Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+      - name: Validate Prometheus & Grafana Configs
+        run: |
+          python3 -c "import yaml; yaml.safe_load(open('infra/prometheus/prometheus.yml'))"
+          python3 -c "import yaml; yaml.safe_load(open('infra/grafana/provisioning/datasources/prometheus.yml'))"
+          python3 -c "import yaml; yaml.safe_load(open('infra/grafana/provisioning/dashboards/dashboards.yml'))"
+          python3 -m json.tool infra/grafana/dashboards/settlecore-overview.json > /dev/null
+      - name: Validate Shell Scripts Syntax
+        run: |
+          bash -n scripts/render-video.sh
+          bash -n scripts/bench.sh
+          bash -n scripts/chaos/trigger-reorg.sh
+          bash -n scripts/chaos/kill-rpc.sh
+          bash -n scripts/chaos/gas-spike.sh
+          bash -n scripts/chaos/flash-crash.sh
+          bash -n infra/anvil/entrypoint.sh

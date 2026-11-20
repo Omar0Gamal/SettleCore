@@ -1,0 +1,57 @@
+name: C++17 CLOB Benchmarks & SVG Chart Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      order_count:
+        description: "Total synthetic orders to replay through the C++17 CLOB"
+        required: false
+        default: "1000000"
+        type: string
+
+jobs:
+  run-benchmarks:
+    name: Execute Release Benchmarks & Regenerate Dark/Light SVGs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake, Ninja, Clang & CPU Tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang util-linux
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Build C++17 Engine in Release Mode (-O3 -march=native -DNDEBUG)
+        run: |
+          if [ ! -s engine/benchmarks/clob_bench.cpp ]; then
+            echo "Benchmark sources missing; skipping C++17 benchmark build."
+            exit 0
+          fi
+          cmake --preset release -S engine
+          cmake --build --preset release
+
+      - name: Run 1M-Order Throughput & HdrHistogram Tail-Latency Suite
+        run: |
+          if [ -s engine/benchmarks/clob_bench.cpp ]; then
+            ORDER_COUNT="${{ inputs.order_count }}" bash scripts/bench.sh
+          fi
+
+      - name: Generate Dark & Light Mode Benchmark SVGs
+        run: |
+          if [ -s benchmarks/charts/generate_charts.py ]; then
+            cd benchmarks/charts
+            uv run python generate_charts.py \
+              --input-dir ../results \
+              --output-dir ../../docs/assets/benchmarks
+          fi
+
+      - name: Upload Raw JSON/HDR CSV & Generated SVGs
+        uses: actions/upload-artifact@v4
+        with:
+          name: settlecore-benchmark-artifacts
+          path: |
+            benchmarks/results/*
+            docs/assets/benchmarks/*.svg
+          if-no-files-found: ignore
